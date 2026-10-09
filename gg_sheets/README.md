@@ -24,8 +24,6 @@ nhập liệu thủ công hiện tại. Xây dựng bằng **NestJS + TypeScript
 > Có đồng bộ thuận/ngược, webhook và Admin. Cron mặc định chiều thuận; chọn hướng bằng `SYNC_DIRECTION=forward|reverse|both`.
 > Sau dọn dẹp, dùng API dưới /api/v1/sync; /sync/trigger và /sync/status đã được bỏ.
 
-Đối chiếu đề bài, các lỗi đã sửa và phần cần nghiệm thu: [docs/REQUIREMENTS-REVIEW.md](docs/REQUIREMENTS-REVIEW.md).
-
 ## Mục lục
 
 - [Kiến trúc tổng quan](#kiến-trúc-tổng-quan)
