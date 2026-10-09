@@ -1,0 +1,105 @@
+{
+  "name": "tiktok-bitrix24-integration",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "nest build",
+    "start": "node dist/main.js",
+    "start:dev": "nest start --watch",
+    "lint": "eslint \"src/**/*.ts\"",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "format": "prettier --write \"README.md\" \"docs/**/*.md\" \"scripts/**/*.cjs\" \"src/**/*.ts\" \"src/docs/*.css\" \"src/docs/*.html\"",
+    "test": "jest",
+    "test:types": "tsc --noEmit -p tsconfig.test.json",
+    "test:cov": "jest --coverage",
+    "test:e2e": "jest --config test/jest-e2e.json",
+    "migration:run": "typeorm-ts-node-commonjs migration:run -d src/database/data-source.ts",
+    "seed": "ts-node src/database/seed.ts",
+    "mock:tiktok": "ts-node src/tools/mock-tiktok.ts",
+    "format:check": "prettier --check \"README.md\" \"docs/**/*.md\" \"scripts/**/*.cjs\" \"src/**/*.ts\" \"src/docs/*.css\" \"src/docs/*.html\"",
+    "prepare": "node scripts/prepare.cjs",
+    "test:integration": "jest --config test/jest-integration.json --runInBand",
+    "swagger:export": "node dist/tools/export-swagger.js"
+  },
+  "dependencies": {
+    "@nestjs/bullmq": "^11.0.0",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/config": "^4.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@nestjs/platform-express": "^11.0.0",
+    "@nestjs/schedule": "^6.0.0",
+    "@nestjs/swagger": "^11.0.0",
+    "@nestjs/terminus": "^11.0.0",
+    "@nestjs/throttler": "^6.0.0",
+    "@nestjs/typeorm": "^11.0.0",
+    "axios": "^1.7.0",
+    "bullmq": "^5.0.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "dotenv": "^16.4.0",
+    "exceljs": "^4.4.0",
+    "form-data": "^4.0.6",
+    "ioredis": "^5.4.0",
+    "libphonenumber-js": "^1.11.0",
+    "pg": "^8.12.0",
+    "pg-query-stream": "^4.17.1",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1",
+    "typeorm": "^0.3.20"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.0",
+    "@nestjs/testing": "^11.0.0",
+    "@types/express": "^5.0.0",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.0.0",
+    "@types/supertest": "^6.0.2",
+    "eslint": "^9.39.5",
+    "husky": "^9.1.7",
+    "jest": "^29.7.0",
+    "prettier": "^3.9.9",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.4.14",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.0",
+    "typescript-eslint": "^8.71.1"
+  },
+  "jest": {
+    "maxWorkers": 2,
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.ts$": [
+        "ts-jest",
+        {
+          "tsconfig": "<rootDir>/../tsconfig.test.json"
+        }
+      ]
+    },
+    "collectCoverageFrom": [
+      "**/*.ts",
+      "!**/*.spec.ts",
+      "!**/*.e2e-spec.ts",
+      "!tools/**",
+      "!main.ts",
+      "!database/**",
+      "!**/*.module.ts",
+      "!**/*.integration-spec.ts"
+    ],
+    "coverageDirectory": "../coverage",
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    },
+    "testEnvironment": "node"
+  }
+}

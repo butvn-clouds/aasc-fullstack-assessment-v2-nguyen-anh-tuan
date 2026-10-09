@@ -1,0 +1,69 @@
+# Production: docker compose -f docker-compose.prod.yml --env-file .env.production up -d --build
+# Khác bản dev: bắt buộc secret, không mở cổng Postgres/Redis ra ngoài, Redis có mật khẩu, tự khởi động lại, giới hạn log.
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:?Đặt DB_PASSWORD}
+      DB_NAME: ${DB_NAME:-leads}
+      DB_POOL_MAX: ${DB_POOL_MAX:-10}
+      DB_CONNECTION_TIMEOUT_MS: ${DB_CONNECTION_TIMEOUT_MS:-5000}
+      DB_IDLE_TIMEOUT_MS: ${DB_IDLE_TIMEOUT_MS:-30000}
+      REDIS_HOST: redis
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?Đặt REDIS_PASSWORD}
+      ADMIN_API_KEY: ${ADMIN_API_KEY:?Đặt ADMIN_API_KEY}
+      TIKTOK_WEBHOOK_SECRET: ${TIKTOK_WEBHOOK_SECRET:?Đặt TIKTOK_WEBHOOK_SECRET}
+      TIKTOK_EVENTS_API_URL: ${TIKTOK_EVENTS_API_URL:-}
+      TIKTOK_EVENTS_MOCK: ${TIKTOK_EVENTS_MOCK:-false}
+      TIKTOK_ACCESS_TOKEN: ${TIKTOK_ACCESS_TOKEN:-}
+      BITRIX24_MOCK: ${BITRIX24_MOCK:-false}
+      BITRIX24_WEBHOOK_URL: ${BITRIX24_WEBHOOK_URL:-}
+      BITRIX24_APP_TOKEN: ${BITRIX24_APP_TOKEN:-}
+      NOTIFY_WEBHOOK_URL: ${NOTIFY_WEBHOOK_URL:-}
+      REPORT_WEBHOOK_URL: ${REPORT_WEBHOOK_URL:-}
+      REPORT_WEBHOOK_TOKEN: ${REPORT_WEBHOOK_TOKEN:-}
+    # Chỉ cổng ứng dụng; đặt sau reverse proxy HTTPS (nginx/Caddy/Traefik).
+    ports: ["127.0.0.1:3000:3000"]
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    command: sh -c "node dist/database/run-migrations.js && node dist/main.js"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    logging: { driver: json-file, options: { max-size: "10m", max-file: "5" } }
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Đặt DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME:-leads}
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-leads}"]
+      interval: 10s
+      retries: 10
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:?Đặt REDIS_PASSWORD}
+    volumes: [redisdata:/data]
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a $$REDIS_PASSWORD ping | grep PONG"]
+      interval: 10s
+      retries: 10
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+volumes:
+  pgdata:
+  redisdata:
