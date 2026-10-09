@@ -123,4 +123,4 @@ Ngrok cũng đang chạy lúc kiểm tra container ban đầu. API key chưa c�
 
 Theo [GUIDE — Kiểm thử và bàn giao](GUIDE.md). Bật đúng project test, xác nhận hai cổng 55432/56379; không dùng database app để chạy integration. `--no-cache` giúp loại cache Jest cũ. Các log ERROR có chủ ý trong test không đồng nghĩa suite thất bại.
 
-Tài liệu này thay thế các số test và snapshot cũ trong báo cáo trước. [V5-VERIFICATION](V5-VERIFICATION.md) và [REVIEW-PATCH](REVIEW-PATCH-2026-10-08.md) là checklist/ghi chú phạm vi, không phải kết quả chạy mới.
+Tài liệu này ghi nhận kết quả kiểm thử của phiên bản hiện tại và thay thế các số liệu, snapshot cũ. Các giới hạn nghiệm thu và cải tiến cần thiết trước production được trình bày trong [Lộ trình Production](PRODUCTION-ROADMAP.md).

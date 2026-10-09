@@ -273,6 +273,3 @@ docker compose up -d --build --wait
 
 Lệnh này xóa lead/deal, cấu hình mapping/rules/costs, raw events, outbox, queue, cache và phiên local; sau đó migration tạo bảng mới và ứng dụng dùng rule mặc định. File `.env` và dữ liệu đã tạo trên Bitrix24 thật không bị xóa. Nếu generator vẫn bật, dữ liệu sẽ sinh lại sau một chu kỳ. Không dùng quy trình này để xử lý lỗi test hoặc sao lưu.
 
-## 11. T?ch h?p TikTok v? Bitrix24
-
-## 12. Ki?n tr?c v? quy?t ??nh k? thu?t
