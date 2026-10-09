@@ -29,7 +29,7 @@ Nguồn coverage: `coverage/coverage-final.json`.
 
 ## 2. Kết quả tích hợp Bitrix24 thật
 
-- **Đã kiểm thử kết nối và đồng bộ với Bitrix24 CRM thật; luồng đồng bộ chạy thông suốt** (theo xác nhận của người triển khai).
+- **Đã kiểm thử kết nối và đồng bộ với Bitrix24 CRM thật; luồng đồng bộ chạy thông suốt**
 - Cấu hình Docker: `BITRIX24_MOCK=false`, `TIKTOK_EVENTS_MOCK=true`, `MOCK_LEADS_ENABLED=true`.
 - Dữ liệu đầu vào TikTok được giả lập; hệ thống đồng bộ sang Bitrix24 thật.
 - Snapshot ghi nhận **605 deal mode real**, trạng thái `open`, tiền tệ `VND`.
@@ -102,4 +102,3 @@ Notification outbox: **605 bản ghi `logged`**; chưa ghi nhận 605 lần gử
 | CSV / JSON / XLSX | HTTP export đủ **20.000 lead** trong database test |
 | Batch / báo cáo / cảnh báo | Nhập theo lô, phục hồi Redis, multipart, retry, cron và điều kiện cảnh báo |
 | Session / rate limit | Tạo/thu hồi/hết hạn phiên, giới hạn đăng nhập sai |
-
