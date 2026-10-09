@@ -1,0 +1,4 @@
+Tên khách hàng,Email,Số điện thoại,Công ty,Nguồn lead (UTM Source),Ngân sách dự kiến,Trạng thái,Người phụ trách,Ghi chú,Lead ID Bitrix24,Trạng thái đồng bộ,Thời gian đồng bộ cuối,Thông báo lỗi,Sync Hash
+Nguyễn Văn A,vana@example.com,0901234567,Cong ty ABC,website_form,50000000,NEW,,Quan tam goi Enterprise,,,,,
+Le Thi C,lethic@example.com,0912345678,Cong ty XYZ,offline_event,20tr,IN_PROCESS,,Gap tai hoi thao thang 9,,,,,
+Hoang Van E,,0987654321,,partner_referral,,NEW,,Khach hang tu doi tac gioi thieu,,,,,

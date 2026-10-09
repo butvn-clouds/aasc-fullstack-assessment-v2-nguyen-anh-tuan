@@ -1,0 +1,116 @@
+{
+  "name": "bitrix24-sheets-sync",
+  "version": "1.0.0",
+  "description": "Dong bo du lieu leads mot chieu (va co the hai chieu) giua Google Sheets va Bitrix24 CRM",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "build": "nest build",
+    "format": "prettier --write \"src/**/*.{ts,js,html,css}\" \"scripts/*.js\" \"config/*.json\" \"docs/*.md\" README.md package.json tsconfig.json tsconfig.build.json nest-cli.json docker-compose.yml",
+    "format:check": "prettier --check \"src/**/*.{ts,js,html,css}\" \"scripts/*.js\" \"config/*.json\" \"docs/*.md\" README.md package.json tsconfig.json tsconfig.build.json nest-cli.json docker-compose.yml",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main",
+    "sync:run": "node dist/cli/sync-cli.js",
+    "sync:run:dev": "ts-node src/cli/sync-cli.ts",
+    "sync:cli": "ts-node src/cli/sync-cli.ts",
+    "sync:reverse:cli": "ts-node src/cli/reverse-sync-cli.ts",
+    "lint": "eslint \"{src,test}/**/*.ts\"",
+    "lint:fix": "eslint \"{src,test}/**/*.ts\" --fix",
+    "verify": "npm run typecheck && npm run lint && npm run test:all && npm run build",
+    "test": "jest --testPathIgnorePatterns /node_modules/ /dist/ performance",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage --testPathIgnorePatterns /node_modules/ /dist/ performance",
+    "test:performance": "jest --runInBand src/sync/sync.service.performance.spec.ts",
+    "test:e2e": "jest --runInBand src/app-wiring.spec.ts src/sync/webhook-http.spec.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test:light": "jest --maxWorkers=2 --testPathIgnorePatterns /node_modules/ /dist/ performance",
+    "test:all": "npm run test:cov && npm run test:performance"
+  },
+  "dependencies": {
+    "@nestjs/common": "^10.3.0",
+    "@nestjs/config": "^3.2.0",
+    "@nestjs/core": "^10.3.0",
+    "@nestjs/platform-express": "^10.3.0",
+    "@nestjs/schedule": "^4.0.0",
+    "@nestjs/swagger": "^7.4.2",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "cron": "3.2.1",
+    "google-auth-library": "^9.6.3",
+    "googleapis": "^133.0.0",
+    "helmet": "^8.3.0",
+    "libphonenumber-js": "^1.11.0",
+    "reflect-metadata": "^0.2.1",
+    "rxjs": "^7.8.1"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^10.3.0",
+    "@nestjs/schematics": "^10.1.0",
+    "@nestjs/testing": "^10.3.0",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.16",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.56.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.2.5",
+    "source-map-support": "^0.5.21",
+    "ts-jest": "^29.1.2",
+    "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.3.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": ".",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/dist/"
+    ],
+    "testRegex": ".*\\.spec\\.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": [
+        "ts-jest",
+        {
+          "diagnostics": false
+        }
+      ]
+    },
+    "collectCoverageFrom": [
+      "src/**/*.(t|j)s",
+      "!src/**/*.module.ts",
+      "!src/main.ts",
+      "!src/cli/*-cli.ts"
+    ],
+    "coverageDirectory": "./coverage",
+    "coverageThreshold": {
+      "global": {
+        "statements": 70,
+        "branches": 70,
+        "functions": 70,
+        "lines": 70
+      }
+    },
+    "testEnvironment": "node",
+    "maxWorkers": "50%",
+    "workerIdleMemoryLimit": "400MB",
+    "coverageProvider": "v8",
+    "clearMocks": false
+  },
+  "overrides": {
+    "lodash": "^4.18.1",
+    "multer": "^2.4.0",
+    "js-yaml": "^4.3.2",
+    "qs": "^6.15.4",
+    "file-type": "^21.3.2",
+    "body-parser": "^1.20.6",
+    "uuid": "^11.1.1"
+  }
+}

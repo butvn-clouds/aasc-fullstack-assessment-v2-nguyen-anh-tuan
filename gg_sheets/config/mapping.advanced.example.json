@@ -1,0 +1,41 @@
+{
+  "_comment": "Ví dụ nâng cao. Đổi custom field và ID enum theo portal trước khi sử dụng; không chứa credentials.",
+  "columns": {
+    "Tên khách hàng": "TITLE",
+    "Email": "EMAIL[0][VALUE]",
+    "Số điện thoại": "PHONE[0][VALUE]",
+    "Công ty": "COMPANY_TITLE",
+    "Nguồn lead (UTM Source)": "UTM_SOURCE",
+    "Ngân sách dự kiến": "OPPORTUNITY",
+    "Trạng thái": "STATUS_ID",
+    "Người phụ trách": "ASSIGNED_BY_ID",
+    "Ghi chú": "COMMENTS",
+    "Ngày hẹn": "UF_CRM_APPOINTMENT_DATE"
+  },
+  "additionalFields": { "NAME": "Tên khách hàng" },
+  "statusColumns": {
+    "leadId": "Lead ID Bitrix24",
+    "syncStatus": "Trạng thái đồng bộ",
+    "lastSyncedAt": "Thời gian đồng bộ cuối",
+    "crmModifiedAt": "CRM Modified At",
+    "errorMessage": "Thông báo lỗi",
+    "syncHash": "Sync Hash"
+  },
+  "dedupFields": ["Email", "Số điện thoại"],
+  "reverseColumns": {
+    "STATUS_ID": "Trạng thái",
+    "ASSIGNED_BY_ID": "Người phụ trách"
+  },
+  "transforms": {
+    "Tên khách hàng": { "type": "string", "required": true },
+    "Email": { "type": "multi_value", "separator": ";", "valueType": "WORK" },
+    "Số điện thoại": { "type": "multi_value", "separator": ";", "valueType": "MOBILE" },
+    "Ngân sách dự kiến": { "type": "number" },
+    "Trạng thái": {
+      "type": "enum",
+      "values": { "Mới": "NEW", "Đang tư vấn": "IN_PROCESS", "Đã chuyển đổi": "CONVERTED" }
+    },
+    "Người phụ trách": { "type": "string" },
+    "Ngày hẹn": { "type": "date" }
+  }
+}

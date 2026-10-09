@@ -1,0 +1,5 @@
+Tên khách hàng,Email,Số điện thoại,Công ty,Nguồn lead (UTM Source),Ngân sách dự kiến,Trạng thái,Người phụ trách,Ghi chú,Lead ID Bitrix24,Trạng thái đồng bộ,Thời gian đồng bộ cuối,Thông báo lỗi,Sync Hash
+Nguyễn Văn A,nguyenvana@email.com,0901234567,Công ty ABC,website,15000000,NEW,,Quan tâm gói Pro,,,,,
+Trần Thị C,tranthic@email.com,0912345678,Công ty XYZ,facebook_ads,25000000,IN_PROCESS,,Đã gọi điện lần 1,,,,,
+Phạm Văn E,phamvane@email.com,0987654321,,partner_referral,5000000,NEW,,Giới thiệu từ đối tác Công ty QRS,,Chờ xử lý,,,
+Lê Thị F,lethif@email.com,,Công ty MNO,offline_event,,NEW,,Gặp tại hội thảo 10/09,,Lỗi,2026-09-16T14:05:00.000Z,"[INVALID_PHONE] Missing or invalid phone/email for dedup lookup",

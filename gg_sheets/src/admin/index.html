@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sync Studio · Quản trị</title>
+    <link rel="stylesheet" href="/api/v1/sync/admin/assets/admin.css" />
+  </head>
+  <body>
+    <aside>
+      <div class="brand">sync<span>studio.</span></div>
+      <div class="tag">Sheets × Bitrix24</div>
+      <nav>
+        <a class="active" href="#">◈ &nbsp; Tổng quan</a
+        ><a href="#mapping">≡ &nbsp; Cấu hình ánh xạ</a
+        ><a href="/docs" target="_blank" rel="noopener">↗ &nbsp; Tài liệu API</a>
+      </nav>
+      <footer>KHÔNG GIAN LÀM VIỆC / CRM<br />Kết nối dữ liệu.<br />Đơn giản hóa công việc.</footer>
+    </aside>
+    <main>
+      <header>
+        <div>
+          <div class="eyebrow">Không gian quản trị</div>
+          <h1>Trung tâm đồng bộ</h1>
+          <p>Quản lý kết nối và dữ liệu khách hàng tại một nơi.</p>
+        </div>
+        <span id="badge" class="badge">Chưa xác thực</span>
+      </header>
+      <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+      <section class="card connection">
+        <div>
+          <h2>Kết nối không gian làm việc</h2>
+          <p>Nhập Khóa API quản trị để bắt đầu phiên làm việc.</p>
+        </div>
+        <form id="login">
+          <label for="key" class="eyebrow" hidden>Khóa API</label
+          ><input
+            id="key"
+            type="password"
+            aria-label="Khóa API quản trị"
+            placeholder="MANAGEMENT_API_KEY"
+            autocomplete="off"
+            required
+          /><button class="btn primary" id="connect">Kết nối →</button
+          ><button class="btn" id="logout" type="button" hidden>Thoát</button>
+        </form>
+      </section>
+      <section class="metrics" aria-label="Kết quả phiên đồng bộ gần nhất">
+        <div class="card metric">
+          <label>Khách hàng tiềm năng mới</label><strong id="created">—</strong><small>Lần chạy gần nhất</small>
+        </div>
+        <div class="card metric">
+          <label>Đã cập nhật</label><strong id="updated">—</strong
+          ><small>Bao gồm dữ liệu kéo về</small>
+        </div>
+        <div class="card metric">
+          <label>Đã bỏ qua</label><strong id="skipped">—</strong><small>Lần chạy gần nhất</small>
+        </div>
+        <div class="card metric">
+          <label>Lỗi xử lý</label><strong id="errors">—</strong><small>Lần chạy gần nhất</small>
+        </div>
+      </section>
+      <section class="card" style="margin-bottom: 24px">
+        <h2>Kết nối Google, Bitrix và đồng bộ thời gian thực</h2>
+        <p>
+          Gọi API Google/Bitrix, kiểm tra địa chỉ nhận webhook qua URL công khai và đọc kết quả xử lý gần
+          nhất. Không thay đổi dữ liệu khách hàng tiềm năng hoặc bảng tính.
+        </p>
+        <button class="btn" id="checkConnections" type="button" disabled>Kiểm tra kết nối</button>
+        <pre id="connectionOutput" class="output" aria-live="polite"></pre>
+        <p>
+          Webhook vào dùng để đọc/ghi CRM. Webhook ra gửi sự kiện tới địa chỉ HTTPS công khai của ứng dụng.
+          Hai loại mã xác thực này không dùng chung.
+        </p>
+      </section>
+      <div class="grid">
+        <section class="card" id="mapping">
+          <div class="card-head">
+            <div>
+              <h2>Cấu hình ánh xạ</h2>
+              <p>Ghép cột trong bảng tính với trường dữ liệu CRM.</p>
+            </div>
+            <span class="pill">JSON</span>
+          </div>
+          <div class="code-shell">
+            <div class="form-mapping">
+              <h3>Ghép trường bằng biểu mẫu</h3>
+              <p>
+                Chọn cột và trường CRM. Đánh dấu “Lấy về” cho trường cần cập nhật từ Bitrix. Người phụ
+                trách phải dùng mã số.
+              </p>
+              <button type="button" class="btn" id="loadMappingForm">Đọc cấu hình vào biểu mẫu</button>
+              <button type="button" class="btn" id="addMappingRow">Thêm trường</button>
+              <button type="button" class="btn" id="presetReverse">
+                Thêm trạng thái và người phụ trách
+              </button>
+              <div id="mappingRows"></div>
+              <button type="button" class="btn" id="applyMappingForm">Dùng biểu mẫu</button>
+              <p>
+                Dùng biểu mẫu rồi bấm “Lưu thay đổi”. Danh sách giá trị: mỗi dòng Nhãn=Mã, ví dụ Mới=NEW.
+              </p>
+            </div>
+            <div class="code-bar">
+              <span>Tệp mapping.json</span>
+              <div class="code-mode">
+                <button id="toggleCode" type="button">Chỉnh sửa</button
+                ><button id="formatCode" type="button">Định dạng JSON</button>
+              </div>
+            </div>
+            <pre id="preview" class="code-view" aria-label="Xem cấu hình ánh xạ JSON"></pre>
+            <textarea
+              hidden
+              id="editor"
+              class="editor"
+              spellcheck="false"
+              aria-label="Cấu hình ánh xạ JSON"
+              placeholder="Kết nối không gian làm việc để tải cấu hình…"
+              disabled
+            ></textarea>
+          </div>
+          <div class="editor-footer">
+            <span class="hint" id="editorHint">Cấu hình được kiểm tra trước khi gửi.</span>
+            <div class="toolbar">
+              <button class="btn" id="reload" disabled>Tải lại</button
+              ><button class="btn primary" id="save" disabled>Lưu thay đổi</button>
+            </div>
+          </div>
+        </section>
+        <div class="stack">
+          <section class="card">
+            <h2>Chạy đồng bộ</h2>
+            <p>Cập nhật dữ liệu bất cứ khi nào bạn cần.</p>
+            <div class="action">
+              <h3>Google Sheets → Bitrix24</h3>
+              <p>Tạo và cập nhật khách hàng tiềm năng từ dữ liệu trong bảng tính.</p>
+              <button class="btn primary" id="forward" disabled>
+                Đồng bộ lên CRM <span>↗</span>
+              </button>
+            </div>
+            <div class="action">
+              <h3>Bitrix24 → Google Sheets</h3>
+              <p>
+                Chỉ cập nhật khách hàng tiềm năng đã có mã trên bảng tính và các trường được chọn “Lấy về”. Yêu cầu
+                CRM cổ điển có khách hàng tiềm năng.
+              </p>
+              <button class="btn" id="reverse" disabled>Cập nhật về bảng tính <span>↙</span></button>
+            </div>
+          </section>
+          <section class="card activity">
+            <div class="card-head">
+              <h2>Kết quả hoạt động</h2>
+              <span class="pill">LẦN CHẠY NÀY</span>
+            </div>
+            <p id="empty" class="empty">
+              Chưa có hoạt động.<br />Kết quả sẽ xuất hiện sau khi chạy đồng bộ.
+            </p>
+            <pre id="output" class="output" aria-live="polite"></pre>
+          </section>
+        </div>
+      </div>
+      <section class="card" style="margin-top: 24px">
+        <h2>Lịch sử đồng bộ</h2>
+        <p>
+          100 lần chạy gần nhất, gồm chạy thủ công, lịch tự động và webhook. Không lưu nội dung khách hàng hay
+          token.
+        </p>
+        <button class="btn" type="button" id="refreshHistory">Tải lịch sử</button>
+        <pre id="historyOutput" class="output" aria-live="polite"></pre>
+      </section>
+      <footer class="bottom">
+        <span>Sync Studio · Google Sheets & Bitrix24</span
+        ><span>Khóa API chỉ được lưu trong bộ nhớ của trang.</span>
+      </footer>
+    </main>
+    <script src="/api/v1/sync/admin/assets/admin.js" defer></script>
+  </body>
+</html>
