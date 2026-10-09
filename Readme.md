@@ -24,8 +24,10 @@ Repository này bao gồm mã nguồn, kịch bản kiểm thử (Unit Tests), t
 Dự án được phân chia thành các module độc lập, rõ ràng theo đúng yêu cầu đề bài, đảm bảo tính dễ bảo trì, khả năng mở rộng và tối ưu hiệu năng.
 
 ---
-## Video demo
+## 🎬 Video Demo – Google Sheets ⇄ Bitrix24 CRM
 
-Video minh họa quá trình đồng bộ Google Sheets ⇄ Bitrix24 CRM.
+[![Xem video demo](https://drive.google.com/thumbnail?id=1KQcMlGw5Mjq7rxsi133MU-iWIuReU09z&sz=w1000)](https://drive.google.com/file/d/1KQcMlGw5Mjq7rxsi133MU-iWIuReU09z/view)
 
-**[▶ Xem video demo trên Google Drive](https://drive.google.com/file/d/1KQcMlGw5Mjq7rxsi133MU-iWIuReU09z/view)**
+**[▶ Xem video demo đầy đủ](https://drive.google.com/file/d/1KQcMlGw5Mjq7rxsi133MU-iWIuReU09z/view)**
+
+Video minh họa đồng bộ Google Sheets ⇄ Bitrix24 CRM.
