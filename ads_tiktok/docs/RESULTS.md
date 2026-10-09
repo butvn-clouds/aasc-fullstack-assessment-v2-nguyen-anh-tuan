@@ -2,7 +2,7 @@
 
 [README](../README.md) · [Hướng dẫn](GUIDE.md) · [Kiến trúc](ARCHITECTURE.md) · [Tích hợp](INTEGRATIONS.md)
 
-Ngày kiểm tra: **09/10/2026**, múi giờ **Asia/Bangkok (UTC+7)**. Phạm vi: source trong workspace, build, các bộ test hiện có và kiểm tra chỉ đọc trên Docker chính. Không đổi logic nghiệp vụ, không reset database chính, không chủ động tạo thêm dữ liệu CRM để kiểm tra.
+Ngày kiểm tra: **09/10/2026**, múi giờ **Asia/Bangkok (UTC+7)**. Phạm vi: source trong workspace, build, các bộ test hiện có và kiểm tra chỉ đọc trên Docker .
 
 ## 1. Kết quả chạy mới
 
@@ -29,13 +29,7 @@ Integration dùng project `ads_tiktok_test`, PostgreSQL 16 tại 55432 (`integra
 
 Nguồn: `coverage/coverage-final.json` của lần chạy mới. Bốn chỉ số vượt ngưỡng 80%. Cấu hình loại trừ tools, main, database, module và file kiểm thử; không diễn giải đây là coverage toàn bộ hệ thống hay kiểm thử giao diện trình duyệt.
 
-## 2. Source và container có cùng bản không?
-
-Sau khi cập nhật tài liệu, `npm run format:check` đạt; kiểm tra liên kết tương đối trong README và sáu file Markdown của `docs` không phát hiện liên kết hỏng.
-
-Sau build, so sánh SHA-256 từng file JavaScript trong `dist` local với `/app/dist` của container đang chạy: **89/89 file khớp**, không có file thiếu/thừa trong tập `.js`. Đây là đối chiếu mã đã biên dịch tại thời điểm kiểm tra, không bao gồm toàn bộ dependency, image layer hay file cấu hình môi trường.
-
-## 3. Dữ liệu Docker chính đã quan sát
+## 2. Dữ liệu Docker chính đã quan sát
 
 Snapshot lấy lúc **10:04:48 ngày 09/10/2026** (03:04:48 UTC), trước khi stack chính dừng trong lúc thực hiện lần rà này. Generator đang hoạt động nên các truy vấn tiếp theo có thể có số lượng khác.
 
@@ -72,7 +66,7 @@ Queue `bitrix-sync`: 355 completed, 0 failed, 1 waiting, 0 active/delayed lúc �
 
 Ngrok cũng đang chạy lúc kiểm tra container ban đầu. API key chưa cấu hình là trạng thái demo hiện hữu; cần bật bảo vệ API trước khi công khai toàn bộ app qua tunnel. Lần rà này không thay cấu hình bảo mật đang dùng và không ghi secret/địa chỉ portal vào tài liệu.
 
-## 4. Kiểm tra HTTP trên Docker
+## 3. Kiểm tra HTTP trên Docker
 
 Đã gọi chỉ đọc trước khi app dừng:
 
@@ -93,7 +87,7 @@ Ngrok cũng đang chạy lúc kiểm tra container ban đầu. API key chưa c�
 
 **Đo tải SSE lần này chưa hoàn tất.** Lệnh 20 SSE/60 giây kết thúc mà không có báo cáo; kiểm tra tiếp thấy stack chính đã dừng (`service "app" is not running`). Không ghi nhận kết quả PASS hoặc p95 mới. Số p95 23 ms của lần trước không được dùng thay thế. Không tự khởi động lại stack để tránh thay đổi trạng thái vận hành giữa lúc cập nhật tài liệu.
 
-## 5. Bằng chứng theo yêu cầu chức năng
+## 4. Bằng chứng theo yêu cầu chức năng
 
 | Yêu cầu                       | Đã kiểm chứng                                                                          | Giới hạn                                                   |
 | ----------------------------- | -------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
@@ -111,16 +105,8 @@ Ngrok cũng đang chạy lúc kiểm tra container ban đầu. API key chưa c�
 | Batch / báo cáo / cảnh báo    | Nhập theo lô, phục hồi Redis, multipart file và retry, cron/điều kiện cảnh báo         | URL gửi live hiện để trống; không coi là đã gửi thực tế    |
 | Session / rate limit          | Tạo, thu hồi, hết hạn phiên; đăng nhập sai bị giới hạn                                 | Quyền quản trị chung, rate limit theo tiến trình           |
 
-## 6. Những gì không được suy ra từ kết quả này
-
-- Không có điểm nghiệm thu chính thức 95/100 hay cam kết production từ số test pass.
-- Chưa kiểm thử trình duyệt trực tiếp cho toàn bộ Swagger/SSE, CI GitHub của commit cuối hoặc deploy file Compose production.
-- Chưa nghiệm thu chữ ký/payload/conversion với TikTok thật; phần này được giữ ở mức mô phỏng theo phạm vi dự án.
-- Chưa chứng minh failover nhiều replica, tải dài hạn, khôi phục từ backup hay chống trùng với ứng dụng độc lập cùng ghi vào portal.
-- Kết quả API/database là ảnh chụp có thời điểm; trạng thái Docker cuối lần kiểm tra đã khác lúc bắt đầu. Cần chạy lại `/health` và smoke khi bật lại app.
-
-## 7. Chạy lại
+## 5. Chạy lại
 
 Theo [GUIDE — Kiểm thử và bàn giao](GUIDE.md). Bật đúng project test, xác nhận hai cổng 55432/56379; không dùng database app để chạy integration. `--no-cache` giúp loại cache Jest cũ. Các log ERROR có chủ ý trong test không đồng nghĩa suite thất bại.
 
-Tài liệu này ghi nhận kết quả kiểm thử của phiên bản hiện tại và thay thế các số liệu, snapshot cũ. Các giới hạn nghiệm thu và cải tiến cần thiết trước production được trình bày trong [Lộ trình Production](PRODUCTION-ROADMAP.md).
+Tài liệu này ghi nhận kết quả kiểm thử của phiên bản hiện tại và thay thế các số liệu, Các giới hạn nghiệm thu và cải tiến cần thiết trước production được trình bày trong [Lộ trình Production](PRODUCTION-ROADMAP.md).
