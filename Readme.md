@@ -3,7 +3,7 @@
 > **Ứng viên:** Nguyễn Anh Tuấn  
 > **Vị trí ứng tuyển:** Fullstack Developer
 > **Công ty:** Công ty TNHH Hãng Kiểm toán AASC  
-> **Thời gian hoàn thành:** 09/19/2026  
+> **Thời gian hoàn thành:** 09/10/2026  
 
 ---
 
